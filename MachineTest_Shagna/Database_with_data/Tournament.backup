@@ -1,0 +1,1565 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.2.2
+-- Dumped by pg_dump version 9.2.2
+-- Started on 2020-07-16 01:36:08
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 197 (class 3079 OID 11727)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2120 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 175 (class 1259 OID 57399)
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_group (
+    id integer NOT NULL,
+    name character varying(80) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO postgres;
+
+--
+-- TOC entry 174 (class 1259 OID 57397)
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2121 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_group_id_seq OWNED BY auth_group.id;
+
+
+--
+-- TOC entry 177 (class 1259 OID 57409)
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO postgres;
+
+--
+-- TOC entry 176 (class 1259 OID 57407)
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_group_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2122 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_group_permissions_id_seq OWNED BY auth_group_permissions.id;
+
+
+--
+-- TOC entry 173 (class 1259 OID 57391)
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO postgres;
+
+--
+-- TOC entry 172 (class 1259 OID 57389)
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_permission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2123 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_permission_id_seq OWNED BY auth_permission.id;
+
+
+--
+-- TOC entry 179 (class 1259 OID 57417)
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(30) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO postgres;
+
+--
+-- TOC entry 181 (class 1259 OID 57427)
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO postgres;
+
+--
+-- TOC entry 180 (class 1259 OID 57425)
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2124 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_groups_id_seq OWNED BY auth_user_groups.id;
+
+
+--
+-- TOC entry 178 (class 1259 OID 57415)
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2125 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_id_seq OWNED BY auth_user.id;
+
+
+--
+-- TOC entry 183 (class 1259 OID 57435)
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO postgres;
+
+--
+-- TOC entry 182 (class 1259 OID 57433)
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_user_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2126 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_user_permissions_id_seq OWNED BY auth_user_user_permissions.id;
+
+
+--
+-- TOC entry 185 (class 1259 OID 57495)
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO postgres;
+
+--
+-- TOC entry 184 (class 1259 OID 57493)
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_admin_log_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2127 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_admin_log_id_seq OWNED BY django_admin_log.id;
+
+
+--
+-- TOC entry 171 (class 1259 OID 57381)
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO postgres;
+
+--
+-- TOC entry 170 (class 1259 OID 57379)
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_content_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2128 (class 0 OID 0)
+-- Dependencies: 170
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_content_type_id_seq OWNED BY django_content_type.id;
+
+
+--
+-- TOC entry 169 (class 1259 OID 57370)
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO postgres;
+
+--
+-- TOC entry 168 (class 1259 OID 57368)
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_migrations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2129 (class 0 OID 0)
+-- Dependencies: 168
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_migrations_id_seq OWNED BY django_migrations.id;
+
+
+--
+-- TOC entry 186 (class 1259 OID 57523)
+-- Name: django_session; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO postgres;
+
+--
+-- TOC entry 188 (class 1259 OID 57736)
+-- Name: jobs_cost; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE jobs_cost (
+    id integer NOT NULL,
+    cost double precision NOT NULL,
+    date date NOT NULL
+);
+
+
+ALTER TABLE public.jobs_cost OWNER TO postgres;
+
+--
+-- TOC entry 187 (class 1259 OID 57734)
+-- Name: jobs_cost_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE jobs_cost_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.jobs_cost_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2130 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: jobs_cost_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE jobs_cost_id_seq OWNED BY jobs_cost.id;
+
+
+--
+-- TOC entry 196 (class 1259 OID 57804)
+-- Name: jobs_fixture; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE jobs_fixture (
+    id integer NOT NULL,
+    "teamA" character varying(50) NOT NULL,
+    "teamB" character varying(50) NOT NULL,
+    date character varying(50) NOT NULL,
+    "time" character varying(50) NOT NULL,
+    venues character varying(50) NOT NULL,
+    score character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.jobs_fixture OWNER TO postgres;
+
+--
+-- TOC entry 195 (class 1259 OID 57802)
+-- Name: jobs_fixture_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE jobs_fixture_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.jobs_fixture_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2131 (class 0 OID 0)
+-- Dependencies: 195
+-- Name: jobs_fixture_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE jobs_fixture_id_seq OWNED BY jobs_fixture.id;
+
+
+--
+-- TOC entry 190 (class 1259 OID 57744)
+-- Name: jobs_registrationtbl; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE jobs_registrationtbl (
+    id integer NOT NULL,
+    teamname character varying(50) NOT NULL,
+    player1 character varying(50) NOT NULL,
+    player2 character varying(50) NOT NULL,
+    player3 character varying(50) NOT NULL,
+    player4 character varying(50) NOT NULL,
+    player5 character varying(50) NOT NULL,
+    player6 character varying(50) NOT NULL,
+    player7 character varying(50) NOT NULL,
+    player8 character varying(50) NOT NULL,
+    player9 character varying(50) NOT NULL,
+    player10 character varying(50) NOT NULL,
+    player11 character varying(50) NOT NULL,
+    coach character varying(50) NOT NULL,
+    manager character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.jobs_registrationtbl OWNER TO postgres;
+
+--
+-- TOC entry 189 (class 1259 OID 57742)
+-- Name: jobs_registrationtbl_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE jobs_registrationtbl_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.jobs_registrationtbl_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2132 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: jobs_registrationtbl_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE jobs_registrationtbl_id_seq OWNED BY jobs_registrationtbl.id;
+
+
+--
+-- TOC entry 194 (class 1259 OID 57787)
+-- Name: jobs_score; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE jobs_score (
+    id integer NOT NULL,
+    "teamA" character varying(50) NOT NULL,
+    "teamB" character varying(50) NOT NULL,
+    score integer NOT NULL
+);
+
+
+ALTER TABLE public.jobs_score OWNER TO postgres;
+
+--
+-- TOC entry 193 (class 1259 OID 57785)
+-- Name: jobs_score_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE jobs_score_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.jobs_score_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2133 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: jobs_score_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE jobs_score_id_seq OWNED BY jobs_score.id;
+
+
+--
+-- TOC entry 192 (class 1259 OID 57755)
+-- Name: jobs_venue; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE jobs_venue (
+    id integer NOT NULL,
+    venues character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.jobs_venue OWNER TO postgres;
+
+--
+-- TOC entry 191 (class 1259 OID 57753)
+-- Name: jobs_venue_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE jobs_venue_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.jobs_venue_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2134 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: jobs_venue_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE jobs_venue_id_seq OWNED BY jobs_venue.id;
+
+
+--
+-- TOC entry 2006 (class 2604 OID 57402)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group ALTER COLUMN id SET DEFAULT nextval('auth_group_id_seq'::regclass);
+
+
+--
+-- TOC entry 2007 (class 2604 OID 57412)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- TOC entry 2005 (class 2604 OID 57394)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_permission ALTER COLUMN id SET DEFAULT nextval('auth_permission_id_seq'::regclass);
+
+
+--
+-- TOC entry 2008 (class 2604 OID 57420)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user ALTER COLUMN id SET DEFAULT nextval('auth_user_id_seq'::regclass);
+
+
+--
+-- TOC entry 2009 (class 2604 OID 57430)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups ALTER COLUMN id SET DEFAULT nextval('auth_user_groups_id_seq'::regclass);
+
+
+--
+-- TOC entry 2010 (class 2604 OID 57438)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- TOC entry 2011 (class 2604 OID 57498)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log ALTER COLUMN id SET DEFAULT nextval('django_admin_log_id_seq'::regclass);
+
+
+--
+-- TOC entry 2004 (class 2604 OID 57384)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_content_type ALTER COLUMN id SET DEFAULT nextval('django_content_type_id_seq'::regclass);
+
+
+--
+-- TOC entry 2003 (class 2604 OID 57373)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_migrations ALTER COLUMN id SET DEFAULT nextval('django_migrations_id_seq'::regclass);
+
+
+--
+-- TOC entry 2013 (class 2604 OID 57739)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY jobs_cost ALTER COLUMN id SET DEFAULT nextval('jobs_cost_id_seq'::regclass);
+
+
+--
+-- TOC entry 2017 (class 2604 OID 57807)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY jobs_fixture ALTER COLUMN id SET DEFAULT nextval('jobs_fixture_id_seq'::regclass);
+
+
+--
+-- TOC entry 2014 (class 2604 OID 57747)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY jobs_registrationtbl ALTER COLUMN id SET DEFAULT nextval('jobs_registrationtbl_id_seq'::regclass);
+
+
+--
+-- TOC entry 2016 (class 2604 OID 57790)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY jobs_score ALTER COLUMN id SET DEFAULT nextval('jobs_score_id_seq'::regclass);
+
+
+--
+-- TOC entry 2015 (class 2604 OID 57758)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY jobs_venue ALTER COLUMN id SET DEFAULT nextval('jobs_venue_id_seq'::regclass);
+
+
+--
+-- TOC entry 2091 (class 0 OID 57399)
+-- Dependencies: 175
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2135 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_group_id_seq', 1, false);
+
+
+--
+-- TOC entry 2093 (class 0 OID 57409)
+-- Dependencies: 177
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2136 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- TOC entry 2089 (class 0 OID 57391)
+-- Dependencies: 173
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can add group	2	add_group
+5	Can change group	2	change_group
+6	Can delete group	2	delete_group
+7	Can add permission	3	add_permission
+8	Can change permission	3	change_permission
+9	Can delete permission	3	delete_permission
+10	Can add user	4	add_user
+11	Can change user	4	change_user
+12	Can delete user	4	delete_user
+13	Can add content type	5	add_contenttype
+14	Can change content type	5	change_contenttype
+15	Can delete content type	5	delete_contenttype
+16	Can add session	6	add_session
+17	Can change session	6	change_session
+18	Can delete session	6	delete_session
+19	Can add registrationtbl	7	add_registrationtbl
+20	Can change registrationtbl	7	change_registrationtbl
+21	Can delete registrationtbl	7	delete_registrationtbl
+22	Can add register team	7	add_registerteam
+23	Can change register team	7	change_registerteam
+24	Can delete register team	7	delete_registerteam
+25	Can add cost	8	add_cost
+26	Can change cost	8	change_cost
+27	Can delete cost	8	delete_cost
+28	Can add registrationtbl	9	add_registrationtbl
+29	Can change registrationtbl	9	change_registrationtbl
+30	Can delete registrationtbl	9	delete_registrationtbl
+31	Can add venue	10	add_venue
+32	Can change venue	10	change_venue
+33	Can delete venue	10	delete_venue
+34	Can add goal score	11	add_goalscore
+35	Can change goal score	11	change_goalscore
+36	Can delete goal score	11	delete_goalscore
+37	Can add schedule	12	add_schedule
+38	Can change schedule	12	change_schedule
+39	Can delete schedule	12	delete_schedule
+40	Can add fixture	13	add_fixture
+41	Can change fixture	13	change_fixture
+42	Can delete fixture	13	delete_fixture
+43	Can add score	14	add_score
+44	Can change score	14	change_score
+45	Can delete score	14	delete_score
+\.
+
+
+--
+-- TOC entry 2137 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_permission_id_seq', 45, true);
+
+
+--
+-- TOC entry 2095 (class 0 OID 57417)
+-- Dependencies: 179
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+1	pbkdf2_sha256$36000$BOa8qmNoPR1P$bPVJCunHyUZ/kqU2fEo6zedamByIAyQ4iLEPDiUvfTM=	2020-07-15 15:40:31.754+05:30	t	admin				t	t	2020-07-15 08:48:44.986+05:30
+\.
+
+
+--
+-- TOC entry 2097 (class 0 OID 57427)
+-- Dependencies: 181
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2138 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_groups_id_seq', 1, false);
+
+
+--
+-- TOC entry 2139 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_id_seq', 1, true);
+
+
+--
+-- TOC entry 2099 (class 0 OID 57435)
+-- Dependencies: 183
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2140 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- TOC entry 2101 (class 0 OID 57495)
+-- Dependencies: 185
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2020-07-15 16:00:05.172+05:30	1	Registrationtbl object	3		9	1
+2	2020-07-15 16:01:54.533+05:30	2	Registrationtbl object	3		9	1
+3	2020-07-15 16:03:26.651+05:30	12	Registrationtbl object	3		9	1
+4	2020-07-15 16:03:38.843+05:30	6	Registrationtbl object	3		9	1
+5	2020-07-15 16:04:28.147+05:30	3	Registrationtbl object	3		9	1
+6	2020-07-15 16:06:23.661+05:30	1	Venue object	1	[{"added": {}}]	10	1
+7	2020-07-15 16:06:36.676+05:30	2	Venue object	1	[{"added": {}}]	10	1
+8	2020-07-15 16:07:11.241+05:30	3	Venue object	1	[{"added": {}}]	10	1
+9	2020-07-15 16:07:22.895+05:30	4	Venue object	1	[{"added": {}}]	10	1
+10	2020-07-15 16:07:41.83+05:30	5	Venue object	1	[{"added": {}}]	10	1
+11	2020-07-15 17:31:46.576+05:30	5	Registrationtbl object	3		9	1
+12	2020-07-15 18:46:40.647+05:30	15	Registrationtbl object	3		9	1
+13	2020-07-15 18:46:40.694+05:30	14	Registrationtbl object	3		9	1
+14	2020-07-15 18:46:40.697+05:30	13	Registrationtbl object	3		9	1
+15	2020-07-15 18:46:40.702+05:30	11	Registrationtbl object	3		9	1
+16	2020-07-15 18:46:40.708+05:30	10	Registrationtbl object	3		9	1
+17	2020-07-15 18:46:40.714+05:30	9	Registrationtbl object	3		9	1
+18	2020-07-15 18:46:40.72+05:30	8	Registrationtbl object	3		9	1
+19	2020-07-15 18:46:40.726+05:30	7	Registrationtbl object	3		9	1
+20	2020-07-15 18:46:40.73+05:30	4	Registrationtbl object	3		9	1
+21	2020-07-15 18:47:00.792+05:30	16	Registrationtbl object	3		9	1
+22	2020-07-15 21:04:00.879+05:30	5	Score object	2	[]	14	1
+23	2020-07-15 23:25:31.525+05:30	7	Score object	2	[{"changed": {"fields": ["score"]}}]	14	1
+24	2020-07-15 23:32:49.281+05:30	17	Registrationtbl object	3		9	1
+25	2020-07-15 23:41:46.775+05:30	27	Registrationtbl object	3		9	1
+26	2020-07-15 23:42:40.744+05:30	28	Registrationtbl object	3		9	1
+27	2020-07-15 23:47:06.464+05:30	29	Registrationtbl object	3		9	1
+28	2020-07-16 00:36:25.688+05:30	5	Fixture object	2	[{"changed": {"fields": ["score"]}}]	13	1
+29	2020-07-16 00:37:49.802+05:30	4	Fixture object	2	[{"changed": {"fields": ["score"]}}]	13	1
+30	2020-07-16 00:48:33.253+05:30	2	Fixture object	2	[{"changed": {"fields": ["score"]}}]	13	1
+31	2020-07-16 00:49:30.466+05:30	5	Fixture object	2	[{"changed": {"fields": ["score"]}}]	13	1
+32	2020-07-16 00:57:26.143+05:30	30	Registrationtbl object	3		9	1
+33	2020-07-16 01:05:27.47+05:30	31	Registrationtbl object	3		9	1
+34	2020-07-16 01:05:54.25+05:30	32	Registrationtbl object	3		9	1
+35	2020-07-16 01:14:10.423+05:30	33	Registrationtbl object	3		9	1
+36	2020-07-16 01:20:01.632+05:30	34	Registrationtbl object	3		9	1
+\.
+
+
+--
+-- TOC entry 2141 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_admin_log_id_seq', 36, true);
+
+
+--
+-- TOC entry 2087 (class 0 OID 57381)
+-- Dependencies: 171
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	group
+3	auth	permission
+4	auth	user
+5	contenttypes	contenttype
+6	sessions	session
+7	tournament	registerteam
+8	jobs	cost
+9	jobs	registrationtbl
+10	jobs	venue
+11	jobs	goalscore
+12	jobs	schedule
+13	jobs	fixture
+14	jobs	score
+\.
+
+
+--
+-- TOC entry 2142 (class 0 OID 0)
+-- Dependencies: 170
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_content_type_id_seq', 14, true);
+
+
+--
+-- TOC entry 2085 (class 0 OID 57370)
+-- Dependencies: 169
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2020-07-15 08:41:52.385+05:30
+2	auth	0001_initial	2020-07-15 08:41:53.392+05:30
+3	admin	0001_initial	2020-07-15 08:41:53.711+05:30
+4	admin	0002_logentry_remove_auto_add	2020-07-15 08:41:53.778+05:30
+5	contenttypes	0002_remove_content_type_name	2020-07-15 08:41:53.835+05:30
+6	auth	0002_alter_permission_name_max_length	2020-07-15 08:41:53.852+05:30
+7	auth	0003_alter_user_email_max_length	2020-07-15 08:41:53.874+05:30
+8	auth	0004_alter_user_username_opts	2020-07-15 08:41:53.89+05:30
+9	auth	0005_alter_user_last_login_null	2020-07-15 08:41:53.911+05:30
+10	auth	0006_require_contenttypes_0002	2020-07-15 08:41:53.915+05:30
+11	auth	0007_alter_validators_add_error_messages	2020-07-15 08:41:53.929+05:30
+12	auth	0008_alter_user_username_max_length	2020-07-15 08:41:53.991+05:30
+13	sessions	0001_initial	2020-07-15 08:41:54.157+05:30
+14	tournament	0001_initial	2020-07-15 08:41:54.277+05:30
+15	tournament	0002_auto_20200715_0841	2020-07-15 08:41:54.319+05:30
+16	tournament	0003_auto_20200715_0955	2020-07-15 09:55:57.989+05:30
+17	jobs	0001_initial	2020-07-15 11:36:12.998+05:30
+18	jobs	0002_registrationtbl	2020-07-15 14:16:02.336+05:30
+19	jobs	0003_venue	2020-07-15 15:29:14.194+05:30
+20	jobs	0004_goalscore_schedule	2020-07-15 16:07:56.437+05:30
+21	jobs	0005_auto_20200715_1842	2020-07-15 18:42:11.824+05:30
+22	jobs	0006_auto_20200715_2057	2020-07-15 20:57:35.887+05:30
+23	jobs	0007_delete_fixture	2020-07-16 00:34:09.348+05:30
+24	jobs	0008_fixture	2020-07-16 00:34:29.168+05:30
+25	jobs	0009_delete_fixture	2020-07-16 00:44:59.138+05:30
+26	jobs	0010_fixture	2020-07-16 00:47:06.693+05:30
+\.
+
+
+--
+-- TOC entry 2143 (class 0 OID 0)
+-- Dependencies: 168
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_migrations_id_seq', 26, true);
+
+
+--
+-- TOC entry 2102 (class 0 OID 57523)
+-- Dependencies: 186
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_session (session_key, session_data, expire_date) FROM stdin;
+eouxth4uoglixg8490argtrvhl0s3ktg	YmU0YTBhNmI1ZWEyNWIzMzIyZjljYWU5NTNjNzQyOTNmNjQwMTk1ZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiYTMyNmIzMDY5ZjNlODkwM2E1MGQ3Y2E3ZDM0MTcyODgxMmY0MzkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2020-07-29 08:49:16.237+05:30
+2jxl6oq6of7zc9ls33f5ktoz9k74bzke	ZWQxODJhYzhjMTUyZmZmZmNiZDVlNjE1NWRmMmI0NmQ5ZGVlYzk0MDp7Il9hdXRoX3VzZXJfaGFzaCI6IjAzMzYzMDQ2YzIzOGQxY2FmY2Q0ZThjMjA0MjJmN2RjZDQ5Y2UyZjQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2020-07-29 15:40:31.762+05:30
+\.
+
+
+--
+-- TOC entry 2104 (class 0 OID 57736)
+-- Dependencies: 188
+-- Data for Name: jobs_cost; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY jobs_cost (id, cost, date) FROM stdin;
+1	0	2020-02-02
+2	0	2020-07-15
+3	0	2020-02-03
+\.
+
+
+--
+-- TOC entry 2144 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: jobs_cost_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('jobs_cost_id_seq', 3, true);
+
+
+--
+-- TOC entry 2112 (class 0 OID 57804)
+-- Dependencies: 196
+-- Data for Name: jobs_fixture; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY jobs_fixture (id, "teamA", "teamB", date, "time", venues, score) FROM stdin;
+1	Black Eagles	hg	2020-07-20	09:00 AM	Trivandrum	
+3	Fighting Bees	Flames	2020-07-22	09:00 AM	Kochi	
+4	Purple Pride	Firebirds	2020-07-23	09:00 AM	Thrissur	
+2	Avengers	Blue Rocks	2020-07-21	09:00 AM	Kochi	0-2
+5	Bull Riders	Aztecs	2020-07-24	09:00 AM	Trivandrum	1-1
+\.
+
+
+--
+-- TOC entry 2145 (class 0 OID 0)
+-- Dependencies: 195
+-- Name: jobs_fixture_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('jobs_fixture_id_seq', 5, true);
+
+
+--
+-- TOC entry 2106 (class 0 OID 57744)
+-- Dependencies: 190
+-- Data for Name: jobs_registrationtbl; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY jobs_registrationtbl (id, teamname, player1, player2, player3, player4, player5, player6, player7, player8, player9, player10, player11, coach, manager) FROM stdin;
+18	Black Eagles	Sunil	Gurpreet	Anirudh	Pranoy	Pritham	Sandhu	Anas	Vineeth	Nishu	Balwant	Dheeraj	Rahul	James
+19	Avengers	Farukh	Dhoni	Sachin	Messi	Adil	Amarjith	Malveer	Michael	Sarthak	Vishal	Nikhil	Kamaljith	Jerry
+20	Fighting Bees	Bigil	Ronan	Brayden	Hugo	Devin	Steffan	Marco	Antonio	Brayden	Ethan	Aaron	Kurupp	Mukesh
+21	Purple Pride	Roshan	Himesh	Midun	Dev	Yogesh	Adi	Arun	Arjun	Michle	Hashir	Yash	Belven	Ganesh
+22	Bull Riders	Thapper	Drith	Ayush	Ayan	Gokul	Miyesh	Mai	Kalai	Govind	Albin	Arjith	Shaan	M S Khan
+23	Aztecs	Kumar	Devadath	Gopi	Manu	Aryan	Rahul	Vipeesh	Govardhan	Mikki	Mil	Miri	Santhu	Manoharan
+24	Firebirds	Williams	Erik	Parthalu	Mashish	Alice	Alen	John	Kevin	Ishan	Ihan	Irish	Bil	Zam
+25	Flames	Mithesh	Gem	Fem	Tinn	Kelin	Keyang	Dono	Drip	Joji	Amrithesh	Lankesh	Vidyth	Virat
+26	Blue Rocks	Rmil	Mosh	Meeth	Javeed	Jamal	Johar	Karan	Sushant	Jodha	Akbar	Hume	Rishikesh	Kareem
+35	dsds	zd	cbv	jhg	jg	jg	jg	jhg	gh	jhggj	g	hg	hh	g
+\.
+
+
+--
+-- TOC entry 2146 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: jobs_registrationtbl_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('jobs_registrationtbl_id_seq', 35, true);
+
+
+--
+-- TOC entry 2110 (class 0 OID 57787)
+-- Dependencies: 194
+-- Data for Name: jobs_score; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY jobs_score (id, "teamA", "teamB", score) FROM stdin;
+11	Black Eagles	hg	0
+12	Avengers	Blue Rocks	0
+13	Fighting Bees	Flames	0
+14	Purple Pride	Firebirds	0
+15	Bull Riders	Aztecs	0
+16	Black Eagles	hg	0
+17	Avengers	Blue Rocks	0
+18	Fighting Bees	Flames	0
+19	Purple Pride	Firebirds	0
+20	Bull Riders	Aztecs	0
+21	Black Eagles	hg	0
+22	Avengers	Blue Rocks	0
+23	Fighting Bees	Flames	0
+24	Purple Pride	Firebirds	0
+25	Bull Riders	Aztecs	0
+\.
+
+
+--
+-- TOC entry 2147 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: jobs_score_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('jobs_score_id_seq', 25, true);
+
+
+--
+-- TOC entry 2108 (class 0 OID 57755)
+-- Dependencies: 192
+-- Data for Name: jobs_venue; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY jobs_venue (id, venues) FROM stdin;
+1	Kannur
+2	Calicut
+3	Trivandrum
+4	Kochi
+5	Thrissur
+\.
+
+
+--
+-- TOC entry 2148 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: jobs_venue_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('jobs_venue_id_seq', 5, true);
+
+
+--
+-- TOC entry 2031 (class 2606 OID 57406)
+-- Name: auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- TOC entry 2036 (class 2606 OID 57461)
+-- Name: auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- TOC entry 2039 (class 2606 OID 57414)
+-- Name: auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2033 (class 2606 OID 57404)
+-- Name: auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2026 (class 2606 OID 57447)
+-- Name: auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- TOC entry 2028 (class 2606 OID 57396)
+-- Name: auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2047 (class 2606 OID 57432)
+-- Name: auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2050 (class 2606 OID 57476)
+-- Name: auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- TOC entry 2041 (class 2606 OID 57422)
+-- Name: auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2053 (class 2606 OID 57440)
+-- Name: auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2056 (class 2606 OID 57490)
+-- Name: auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- TOC entry 2044 (class 2606 OID 57518)
+-- Name: auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- TOC entry 2059 (class 2606 OID 57504)
+-- Name: django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2021 (class 2606 OID 57388)
+-- Name: django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- TOC entry 2023 (class 2606 OID 57386)
+-- Name: django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2019 (class 2606 OID 57378)
+-- Name: django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2063 (class 2606 OID 57530)
+-- Name: django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- TOC entry 2066 (class 2606 OID 57741)
+-- Name: jobs_cost_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY jobs_cost
+    ADD CONSTRAINT jobs_cost_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2074 (class 2606 OID 57809)
+-- Name: jobs_fixture_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY jobs_fixture
+    ADD CONSTRAINT jobs_fixture_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2068 (class 2606 OID 57752)
+-- Name: jobs_registrationtbl_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY jobs_registrationtbl
+    ADD CONSTRAINT jobs_registrationtbl_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2072 (class 2606 OID 57792)
+-- Name: jobs_score_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY jobs_score
+    ADD CONSTRAINT jobs_score_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2070 (class 2606 OID 57760)
+-- Name: jobs_venue_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY jobs_venue
+    ADD CONSTRAINT jobs_venue_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2029 (class 1259 OID 57449)
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- TOC entry 2034 (class 1259 OID 57462)
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON auth_group_permissions USING btree (group_id);
+
+
+--
+-- TOC entry 2037 (class 1259 OID 57463)
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON auth_group_permissions USING btree (permission_id);
+
+
+--
+-- TOC entry 2024 (class 1259 OID 57448)
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON auth_permission USING btree (content_type_id);
+
+
+--
+-- TOC entry 2045 (class 1259 OID 57478)
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_group_id_97559544 ON auth_user_groups USING btree (group_id);
+
+
+--
+-- TOC entry 2048 (class 1259 OID 57477)
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_user_id_6a12ed8b ON auth_user_groups USING btree (user_id);
+
+
+--
+-- TOC entry 2051 (class 1259 OID 57492)
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- TOC entry 2054 (class 1259 OID 57491)
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- TOC entry 2042 (class 1259 OID 57519)
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- TOC entry 2057 (class 1259 OID 57515)
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON django_admin_log USING btree (content_type_id);
+
+
+--
+-- TOC entry 2060 (class 1259 OID 57516)
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON django_admin_log USING btree (user_id);
+
+
+--
+-- TOC entry 2061 (class 1259 OID 57532)
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON django_session USING btree (expire_date);
+
+
+--
+-- TOC entry 2064 (class 1259 OID 57531)
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- TOC entry 2077 (class 2606 OID 57455)
+-- Name: auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2076 (class 2606 OID 57450)
+-- Name: auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2075 (class 2606 OID 57441)
+-- Name: auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2079 (class 2606 OID 57470)
+-- Name: auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2078 (class 2606 OID 57465)
+-- Name: auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2081 (class 2606 OID 57484)
+-- Name: auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2080 (class 2606 OID 57479)
+-- Name: auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2082 (class 2606 OID 57505)
+-- Name: django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2083 (class 2606 OID 57510)
+-- Name: django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2119 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2020-07-16 01:36:09
+
+--
+-- PostgreSQL database dump complete
+--
+
